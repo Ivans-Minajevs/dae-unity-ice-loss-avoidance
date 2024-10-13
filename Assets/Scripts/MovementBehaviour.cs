@@ -7,8 +7,6 @@ using UnityEngine.XR;
 
 public class MovementBehaviour : MonoBehaviour
 {
-   [SerializeField] protected GameObject _shoulderObject;
-   
    [SerializeField] protected float _movementSpeed = 1.0f;
 
    protected bool _isMoving = false;
@@ -23,13 +21,20 @@ public class MovementBehaviour : MonoBehaviour
 
    protected const float GROUND_CHECK_DISTANCE = 0.01f;
    protected const string GROUND_LAYER = "Ground";
-    
+   
+   protected const float _attackRange = 2.0f;
+   protected bool _isClosedToEnemy = false;
    public Vector3 DesiredMovementDirection
    {
       get { return _desiredMovementDirection; }
       set { _desiredMovementDirection = value; }
    }
-   
+
+   public bool IsClosedToEnemy
+   {
+      get { return _isClosedToEnemy;  }
+      set { _isClosedToEnemy = value;  }
+   }
    public bool IsMoving
    {
       get { return _isMoving; }
@@ -41,8 +46,6 @@ public class MovementBehaviour : MonoBehaviour
       get { return _endPosition; }
       set { _endPosition = value; }
    }
-
-
    public GameObject Target
    {
       get { return _target; }
@@ -53,6 +56,7 @@ public class MovementBehaviour : MonoBehaviour
    {
       _rigidBody = GetComponent<Rigidbody>();
    }
+
    
    protected virtual void FixedUpdate()
    {
@@ -63,15 +67,33 @@ public class MovementBehaviour : MonoBehaviour
       _grounded = Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down,
          GROUND_CHECK_DISTANCE, LayerMask.GetMask(GROUND_LAYER));
    }
+   
+   protected virtual void Update()
+   {
+      CheckDistanceToEnemy();
+   }
+
+   private void CheckDistanceToEnemy()
+   {
+      if (_target != null)
+      {
+         // If close to the enemy, stop moving and attack
+         float distanceToTarget = Vector3.Distance(transform.position, _target.transform.position);
+         if (distanceToTarget <= _attackRange)
+         {
+            _isMoving = false; // Stop moving
+            transform.LookAt(_target.transform.position); // Face the enemy
+            _target = null; // Clear target after attacking (optional, depending on your logic)
+            _isClosedToEnemy = true; // Trigger the attack
+         }
+      }
+   }
 
    protected virtual void HandleMovement()
    {
       if (_rigidBody == null) return;
 
       Vector3 movement = default;
-      
-      
-      
       
       if (_isMoving)
       {
@@ -81,7 +103,6 @@ public class MovementBehaviour : MonoBehaviour
          
          transform.LookAt(_endPosition);
       }
-      
       
       movement.y = _rigidBody.velocity.y; //if we dont do that it will cancel out gravity     
       _rigidBody.velocity = movement;
@@ -98,14 +119,6 @@ public class MovementBehaviour : MonoBehaviour
             _isMoving = false;
             transform.position = _endPosition;
          }
-      }
-   }
-   
-   public void Jump()
-   {
-      if (_grounded)
-      {
-         // _rigidBody.AddForce(Vector3.up * _jumpStrength, ForceMode.Impulse);
       }
    }
 }

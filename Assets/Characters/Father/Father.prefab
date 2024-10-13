@@ -2536,7 +2536,6 @@ GameObject:
   - component: {fileID: 350720764056634527}
   - component: {fileID: 7194498494160423478}
   - component: {fileID: -9048395640887828985}
-  - component: {fileID: -7720648094468855224}
   m_Layer: 8
   m_Name: Father
   m_TagString: Friendly
@@ -2621,8 +2620,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62c7b837febcda647ad137fa8fe028a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gunTemplate: {fileID: 0}
-  _socket: {fileID: 0}
+  _swordTemplate: {fileID: 0}
+  _handBone: {fileID: 0}
 --- !u!114 &350720764056634527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2635,7 +2634,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 661103935f2fd4445ba522318ddc1a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shoulderObject: {fileID: 0}
   _movementSpeed: 5
 --- !u!114 &7194498494160423478
 MonoBehaviour:
@@ -2678,19 +2676,6 @@ CapsuleCollider:
   m_Height: 1.9
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &-7720648094468855224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5510270916021707833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27b9c7c7c827edb4ca003d7a7eb706be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementObject: {fileID: 350720764056634527}
 --- !u!1 &5540280650673208229
 GameObject:
   m_ObjectHideFlags: 0
