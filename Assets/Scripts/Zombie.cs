@@ -15,6 +15,7 @@ public class Zombie : BasicCharacter
         {
             _playerTarget = player.gameObject;
             _attackBehaviour = player.GetComponent<AttackBehaviour>();  // Get the player's attack behaviour
+            _movementBehaviour.IsMoving = true;
         }
     }
 
@@ -26,9 +27,10 @@ public class Zombie : BasicCharacter
         LookAtPlayer();
 
         // Move toward the player
+        HandleMovementAnimation();
         HandleMovement();
         
-        HandleMovementAnimation();
+       
     }
 
     private const string IS_MOVING_PARAM = "IsMoving";
@@ -50,6 +52,7 @@ public class Zombie : BasicCharacter
         if (_movementBehaviour == null) return;
         
         _movementBehaviour.Target = _playerTarget;
+        
     }
 
     private void Kill()
@@ -61,7 +64,7 @@ public class Zombie : BasicCharacter
     private void OnTriggerEnter(Collider other)
     {
         // Check if the collider belongs to the player's sword and the player is currently attacking
-        if (other.CompareTag("Sword") && _attackBehaviour.IsAttacking)
+        if (other.CompareTag("Sword"))
         {
             Kill();  // Destroy zombie if hit by sword during an attack
         }

@@ -24,10 +24,16 @@ public class MovementBehaviour : MonoBehaviour
    
    protected const float _attackRange = 2.0f;
    protected bool _isClosedToEnemy = false;
+   
    public Vector3 DesiredMovementDirection
    {
       get { return _desiredMovementDirection; }
       set { _desiredMovementDirection = value; }
+   }
+   public GameObject Target
+   {
+      get { return _target; }
+      set { _target = value;  }
    }
 
    public bool IsClosedToEnemy
@@ -45,11 +51,6 @@ public class MovementBehaviour : MonoBehaviour
    {
       get { return _endPosition; }
       set { _endPosition = value; }
-   }
-   public GameObject Target
-   {
-      get { return _target; }
-      set { _target = value;  }
    }
   
    protected virtual void Awake()
@@ -77,14 +78,17 @@ public class MovementBehaviour : MonoBehaviour
    {
       if (_target != null)
       {
-         // If close to the enemy, stop moving and attack
+        
          float distanceToTarget = Vector3.Distance(transform.position, _target.transform.position);
          if (distanceToTarget <= _attackRange)
          {
             _isMoving = false; // Stop moving
-            transform.LookAt(_target.transform.position); // Face the enemy
-            _target = null; // Clear target after attacking (optional, depending on your logic)
+            transform.LookAt(_target.transform.position); 
             _isClosedToEnemy = true; // Trigger the attack
+         }
+         else
+         {
+            _isClosedToEnemy = false;
          }
       }
    }
@@ -101,15 +105,16 @@ public class MovementBehaviour : MonoBehaviour
          
          movement *= _movementSpeed;
          
-         transform.LookAt(_endPosition);
+        
       }
+      transform.LookAt(_endPosition);
       
       movement.y = _rigidBody.velocity.y; //if we dont do that it will cancel out gravity     
       _rigidBody.velocity = movement;
    }
 
-   private const float stopThreshold = 0.1f;
-   private void HandleStopping()
+   protected const float stopThreshold = 0.1f;
+   protected void HandleStopping()
    {
       if (_isMoving)
       {

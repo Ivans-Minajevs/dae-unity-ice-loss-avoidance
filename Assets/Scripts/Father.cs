@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,10 +16,19 @@ public class Father : BasicCharacter
     [SerializeField] private InputActionReference _interact;
     
     protected Animator _animator;
+    private FatherInventory _inventory; 
+
+    private static readonly string IS_MOVING_PARAM = "IsMoving";
+    private static readonly string IS_ATTACKING_PARAM = "IsAttacking";
+    private static readonly string IS_COLLECTING_PARAM = "IsCollecting";
+    
+    protected bool _isAttackActivated = false;
+    private Collectible _currentCollectible;
     
     private void Start()
     {
         _animator = transform.GetComponent<Animator>();
+        _inventory = GetComponent<FatherInventory>();
     }
     
 
@@ -45,12 +55,14 @@ public class Father : BasicCharacter
         
         if (_movementAction.action.IsPressed())
         {
-            StartCoroutine(_attackBehaviour.EndAttack(0.0f));
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-
+            
+            
             if (Physics.Raycast(ray, out hit))
             {
+                _attackBehaviour.EndAttack();
+                _isAttackActivated = false;
                 // Move normally to clicked position
                 Vector3 targetPosition = hit.point;
                 targetPosition.y = transform.position.y;
@@ -63,33 +75,19 @@ public class Father : BasicCharacter
     }
     
 
-    private const string IS_MOVING_PARAM = "IsMoving";
+
     void HandleMovementAnimation() 
     {
         if (_animator == null) return;
-        
         _animator.SetBool(IS_MOVING_PARAM, _movementBehaviour.IsMoving);
     }
     
-    private const string IS_ATTACKING_PARAM = "IsAttacking";
     void HandleAttackAnimation() 
     {
         if (_animator == null) return;
-        
-        _animator.SetTrigger(IS_ATTACKING_PARAM);
+        _animator.SetBool(IS_ATTACKING_PARAM, _attackBehaviour.IsAttacking);
     }
-
-    void TriggerAttack()
-    {
-        // Call the AttackBehaviour to handle sword movement
-        if (_attackBehaviour != null && !_attackBehaviour.IsAttacking) 
-        {
-            
-            HandleAttackAnimation();
-            _attackBehaviour.Attack();  // This will handle the sword movement during the attack
-            _movementBehaviour.IsClosedToEnemy = false;
-        }
-    }
+    
     
    private void HandleAttackInput()
     {
@@ -104,7 +102,9 @@ public class Father : BasicCharacter
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.CompareTag("Enemy")) 
+                //Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.red);
+                
+                if (hit.collider.CompareTag("Enemy") && !_attackBehaviour.IsAttacking) 
                 {
                     _movementBehaviour.Target = hit.collider.gameObject; // Set the enemy as the target
                     Vector3 targetPosition = hit.point;
@@ -116,25 +116,84 @@ public class Father : BasicCharacter
                     _movementBehaviour.DesiredMovementDirection = (targetPosition - transform.position).normalized;
                     _movementBehaviour.IsMoving = true;
                     _movementBehaviour.EndPosition = targetPosition;
+                    
+                    _isAttackActivated = true;
                 }
             }
         }
     }
   
+    void HandleCollectingInput()
+    {
+        if (_interact == null) return;
+
+        if (_interact.action.IsPressed() && _currentCollectible != null)
+        {
+            CollectMaterial();
+        }
+    }
+    
+    private void CollectMaterial()
+    {
+        if (_currentCollectible != null)
+        {
+            _animator.SetTrigger(IS_COLLECTING_PARAM);  // Play collecting animation
+
+            _inventory.AddMaterial(_currentCollectible.materialType);  // Add material to inventory
+            Destroy(_currentCollectible.gameObject);  // Destroy the collectible after collecting it
+
+            ClearCurrentCollectible(); 
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
-       
         HandleAttackInput();
-        if (_movementBehaviour.IsClosedToEnemy == true)
+        if (_attackBehaviour.IsAttacking)
         {
-            TriggerAttack();
+            AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName("Attack") )// If the animation is finished
+            {
+                if (stateInfo.normalizedTime >= 1.0f)
+                {
+                    _attackBehaviour.EndAttack();
+                }
+                else
+                {
+                    _movementBehaviour.IsMoving = false;
+                }
+            }
         }
+        else
+        {
+            if (_movementBehaviour.IsClosedToEnemy && _isAttackActivated )
+            {
+                if (_attackBehaviour != null) 
+                {
+                    _attackBehaviour.Attack();  // This will handle the sword movement during the attack
+                    _isAttackActivated = false;
+                    
+                }
+            }
+        }
+        HandleAttackAnimation();
         
         HandleMovementInput();
         HandleMovementAnimation();
         
-        
+        HandleCollectingInput();  
+    }
+    
+    public void SetCurrentCollectible(Collectible collectible)
+    {
+        _currentCollectible = collectible;
+    }
+
+    // Call when the player exits collectible range
+    public void ClearCurrentCollectible()
+    {
+        _currentCollectible = null;
     }
 }
+
