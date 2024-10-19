@@ -8,22 +8,37 @@ public class FatherInventory : MonoBehaviour
     public int plasticCount = 0;
     public int woodCount = 0;
 
+    public delegate void MetalItemChange(int metalCount);
+    public event MetalItemChange OnMetalItemChanged;
+    
+    public delegate void PlasticItemChange(int plasticCount);
+    public event PlasticItemChange OnPlasticItemChanged;
+    
+    public delegate void WoodItemChange(int woodCount);
+    public event WoodItemChange OnWoodItemChanged;
+    
+    public int CurrentMetal { get { return metalCount; } }
+    public int CurrentPlastic { get { return plasticCount; } }
+    public int CurrentWood { get { return woodCount; } }
     public void AddMaterial(Collectible.MaterialType materialType)
     {
         switch (materialType)
         {
             case Collectible.MaterialType.Metal:
                 metalCount++;
+                OnMetalItemChanged?.Invoke(metalCount);
                 break;
             case Collectible.MaterialType.Plastic:
                 plasticCount++;
+                OnPlasticItemChanged?.Invoke(plasticCount);
                 break;
             case Collectible.MaterialType.Wood:
                 woodCount++;
+                OnWoodItemChanged?.Invoke(woodCount);
                 break;
         }
         
         // Optional: Trigger HUD update or display collected item feedback
-        Debug.Log($"Collected {materialType}. Metal: {metalCount}, Plastic: {plasticCount}, Wood: {woodCount}");
+        //Debug.Log($"Collected {materialType}. Metal: {metalCount}, Plastic: {plasticCount}, Wood: {woodCount}");
     }
 }

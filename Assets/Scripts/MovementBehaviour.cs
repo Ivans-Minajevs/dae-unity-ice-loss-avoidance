@@ -52,6 +52,12 @@ public class MovementBehaviour : MonoBehaviour
       get { return _endPosition; }
       set { _endPosition = value; }
    }
+
+   public float MovementSpeed
+   {
+      get { return _movementSpeed; }
+      set { _movementSpeed = value;  }
+   }
   
    protected virtual void Awake()
    {

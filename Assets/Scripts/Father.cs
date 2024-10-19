@@ -16,7 +16,10 @@ public class Father : BasicCharacter
     [SerializeField] private InputActionReference _interact;
     
     protected Animator _animator;
-    private FatherInventory _inventory; 
+    private FatherInventory _inventory;
+
+    private Frostbite _frostbite;
+    private Energy _energy;
 
     private static readonly string IS_MOVING_PARAM = "IsMoving";
     private static readonly string IS_ATTACKING_PARAM = "IsAttacking";
@@ -29,6 +32,10 @@ public class Father : BasicCharacter
     {
         _animator = transform.GetComponent<Animator>();
         _inventory = GetComponent<FatherInventory>();
+        _frostbite = GetComponent<Frostbite>();
+        _energy = GetComponent<Energy>();
+        InvokeRepeating("IncreaseFrostbiteValue", 5f, 2f);
+        InvokeRepeating("DecreaseEnergyValue", 5f, 2f);
     }
     
 
@@ -146,9 +153,19 @@ public class Father : BasicCharacter
         }
     }
 
+    void IncreaseFrostbiteValue()
+    {
+        _frostbite.Freeze(1);
+    }
+    
+    void DecreaseEnergyValue()
+    {
+        _energy.Tire(1);
+    }
     // Update is called once per frame
     void Update()
     {
+        
         HandleAttackInput();
         if (_attackBehaviour.IsAttacking)
         {
