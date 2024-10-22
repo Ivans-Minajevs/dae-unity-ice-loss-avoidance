@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class HUD : MonoBehaviour
 {
+    [SerializeField] protected StyleSheet sheet;
+    
     private UIDocument _attachedDocument;
     private VisualElement _root;
 
@@ -23,6 +26,7 @@ public class HUD : MonoBehaviour
         if (_attachedDocument)
         {
             _root = _attachedDocument.rootVisualElement;
+            
         }
 
         if (_root != null)
@@ -30,6 +34,13 @@ public class HUD : MonoBehaviour
             _healthBar = _root.Q<ProgressBar>("FatherHealthBar");
             _staminaBar = _root.Q<ProgressBar>("FatherStaminaBar");
             _frostbiteBar = _root.Q<ProgressBar>("FatherFrostbiteBar");
+            
+           _root.styleSheets.Add(sheet);
+           _root.MarkDirtyRepaint();
+           //
+           //var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/HUD/test.uss");
+           //_root.styleSheets.Add(styleSheet);
+           
 
             _metalLabel = _root.Q<Label>("MetalLabel");
             _woodLabel = _root.Q<Label>("WoodLabel");
@@ -99,7 +110,7 @@ public class HUD : MonoBehaviour
     {
         if (_healthBar == null) return;
 
-        _healthBar.value = currentHealth / startHealth;
+        _healthBar.value = currentHealth / startHealth * 100;
         _healthBar.title = string.Format("{0}/{1}", currentHealth, startHealth);
     }
 
@@ -107,7 +118,7 @@ public class HUD : MonoBehaviour
     {
         if (_staminaBar == null) return;
 
-        _staminaBar.value = currentEnergy / startEnergy;
+        _staminaBar.value = currentEnergy / startEnergy * 100;
         _staminaBar.title = string.Format("{0}/{1}", currentEnergy, startEnergy);
     }
 
@@ -115,7 +126,7 @@ public class HUD : MonoBehaviour
     {
         if (_frostbiteBar == null) return;
 
-        _frostbiteBar.value = currentFrostbite / maxFrostbite;
+        _frostbiteBar.value = currentFrostbite / maxFrostbite * 100;
         _frostbiteBar.title = string.Format("{0}/{1}", currentFrostbite, maxFrostbite);
     }
 }

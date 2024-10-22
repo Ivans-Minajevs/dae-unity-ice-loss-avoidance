@@ -1,0 +1,11 @@
+.health-bar-background .unity-progress-bar__progress {
+    background-color: red; /* Health Bar */
+}
+
+.stamina-bar-background .unity-progress-bar__progress {
+    background-color: orange; /* Stamina Bar */
+}
+
+.frostbite-bar-background .unity-progress-bar__progress {
+    background-color: cadetblue; /* Frostbite Bar */
+}

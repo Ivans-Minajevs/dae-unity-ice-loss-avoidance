@@ -41,4 +41,21 @@ public class FatherInventory : MonoBehaviour
         // Optional: Trigger HUD update or display collected item feedback
         //Debug.Log($"Collected {materialType}. Metal: {metalCount}, Plastic: {plasticCount}, Wood: {woodCount}");
     }
+    
+    public bool SpendResources(int requiredMetal, int requiredPlastic, int requiredWood)
+    {
+        if (metalCount >= requiredMetal && plasticCount >= requiredPlastic && woodCount >= requiredWood)
+        {
+            metalCount -= requiredMetal;
+            OnMetalItemChanged?.Invoke(metalCount);
+            
+            plasticCount -= requiredPlastic;
+            OnPlasticItemChanged?.Invoke(plasticCount);
+            
+            woodCount -= requiredWood;
+            OnWoodItemChanged?.Invoke(woodCount);
+            return true;
+        }
+        return false;
+    }
 }
