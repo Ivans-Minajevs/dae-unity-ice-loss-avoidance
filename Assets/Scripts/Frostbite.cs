@@ -22,6 +22,14 @@ public class Frostbite: MonoBehaviour
         OnFrostbiteChanged?.Invoke(_maxFrostbite, _currentFrostbite);
         if (_currentFrostbite >= _maxFrostbite) Kill();
     }
+
+    public void Heat(int amount)
+    {
+        _currentFrostbite -= amount;
+        if (_currentFrostbite <= 0) _currentFrostbite = 0;
+        OnFrostbiteChanged?.Invoke(_maxFrostbite, _currentFrostbite);
+        
+    }
     void Kill()
     {
         Destroy(gameObject);

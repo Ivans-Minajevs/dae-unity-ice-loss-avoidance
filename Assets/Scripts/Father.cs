@@ -16,7 +16,8 @@ public class Father : BasicCharacter
     [SerializeField] private InputActionReference _interact;
     
     [SerializeField] private Mechanism _mechanism;
-
+    private Bonfire _currentBonfire;
+    
     protected Animator _animator;
     private FatherInventory _inventory;
 
@@ -29,6 +30,7 @@ public class Father : BasicCharacter
 
     protected bool _isAttackActivated = false;
     private Collectible _currentCollectible;
+    private Coroutine _frostReductionCoroutine;
 
     private void Start()
     {
@@ -66,7 +68,7 @@ public class Father : BasicCharacter
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, 2000, int.MaxValue, QueryTriggerInteraction.Ignore))
             {
                 _attackBehaviour.EndAttack();
                 _isAttackActivated = false;
@@ -104,7 +106,7 @@ public class Father : BasicCharacter
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, 2000, int.MaxValue, QueryTriggerInteraction.Ignore))
             {
                 if (hit.collider.CompareTag("Enemy") && !_attackBehaviour.IsAttacking)
                 {
@@ -137,6 +139,11 @@ public class Father : BasicCharacter
         {
             TryBuildRobotPart("Arm", 2, 1, 1); 
         }
+
+        if (_interact.action.IsPressed() && _currentBonfire != null)
+        {
+            TryActivateBonfire(1, 3);
+        }
     }
 
     private void CollectMaterial()
@@ -165,9 +172,26 @@ public class Father : BasicCharacter
         }
     }
 
+    private void TryActivateBonfire(int requiredPlastic, int requiredWood)
+    {
+        if (_inventory.SpendResources(0, requiredPlastic, requiredWood))
+        {
+            _currentBonfire.ActivateBonfire();
+        }
+        else
+        {
+            Debug.Log("Not enough resources to build the bonfire");
+        }
+    }
+
     void IncreaseFrostbiteValue()
     {
-        _frostbite.Freeze(1);
+        _frostbite.Freeze(5);
+    }
+
+    void DecreaseFrostbiteValue()
+    {
+        _frostbite.Heat(10);
     }
 
     void DecreaseEnergyValue()
@@ -227,6 +251,39 @@ public class Father : BasicCharacter
         HandleCollectingInput();
     }
 
+    public void SetCurrentBonfire(Bonfire bonfire)
+    {
+        _currentBonfire = bonfire;
+        
+        // Start the coroutine to decrease frost
+        if (_frostReductionCoroutine == null)
+        {
+            _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
+        }
+    }
+    private IEnumerator DecreaseFrostOverTime()
+    {
+        while (_currentBonfire != null)
+        {
+            if (_currentBonfire.IsActive())
+            {
+                _frostbite.Heat(10);  // Decrease frost value
+            }
+            yield return new WaitForSeconds(2f);  // Wait for 2 seconds before the next decrease
+        }
+    }
+
+    public void ClearCurrentBonfire()
+    {
+        _currentBonfire = null;
+        
+        if (_frostReductionCoroutine != null)
+        {
+            StopCoroutine(_frostReductionCoroutine);
+            _frostReductionCoroutine = null;
+        }
+    }
+    
     public void SetCurrentCollectible(Collectible collectible)
     {
         _currentCollectible = collectible;
