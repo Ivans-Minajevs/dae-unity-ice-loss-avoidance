@@ -83,6 +83,17 @@ public class Zombie : BasicCharacter
         Destroy(gameObject);  
     }
     
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Friendly")) // Replace with the tag of the other object
+        {
+            Father father = collision.gameObject.GetComponent<Father>();
+            if (father != null && _isAttacking) // Check if 'other' is the Father character
+            {
+                father.DecreaseHealth();
+            }
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Sword"))

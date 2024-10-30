@@ -23,6 +23,7 @@ public class Father : BasicCharacter
 
     private Frostbite _frostbite;
     private Energy _energy;
+    private Health _health;
 
     private static readonly string IS_MOVING_PARAM = "IsMoving";
     private static readonly string IS_ATTACKING_PARAM = "IsAttacking";
@@ -38,6 +39,7 @@ public class Father : BasicCharacter
         _inventory = GetComponent<FatherInventory>();
         _frostbite = GetComponent<Frostbite>();
         _energy = GetComponent<Energy>();
+        _health = GetComponent<Health>();
         InvokeRepeating("IncreaseFrostbiteValue", 5f, 2f);
         InvokeRepeating("DecreaseEnergyValue", 5f, 2f);
     }
@@ -199,6 +201,10 @@ public class Father : BasicCharacter
         _energy.Tire(1);
     }
 
+    public void DecreaseHealth()
+    {
+        _health.Damage(1);
+    }
     // Update is called once per frame
     void Update()
     {

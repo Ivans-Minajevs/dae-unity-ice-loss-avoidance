@@ -22,7 +22,7 @@ public class NavMeshMovementBehaviour : MovementBehaviour
             _navMeshAgent.isStopped = true;
             return;
         }
-//should the target move we should recalculate our path
+
         if ((_target.transform.position - _previousTargetPosition).sqrMagnitude
             > MOVEMENT_EPSILON)
         {
