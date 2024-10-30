@@ -120,7 +120,7 @@ public class MovementBehaviour : MonoBehaviour
    }
 
    protected const float stopThreshold = 0.1f;
-   protected void HandleStopping()
+   protected virtual void HandleStopping()
    {
       if (_isMoving)
       {

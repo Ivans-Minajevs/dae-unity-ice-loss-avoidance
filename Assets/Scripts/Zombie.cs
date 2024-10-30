@@ -6,7 +6,7 @@ public class Zombie : BasicCharacter
 {
     private Animator _animator;
     private GameObject _playerTarget;
-
+    private bool _isAttacking = false;
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -14,25 +14,50 @@ public class Zombie : BasicCharacter
         if (player) 
         {
             _playerTarget = player.gameObject;
-            _attackBehaviour = player.GetComponent<AttackBehaviour>();  // Get the player's attack behaviour
+            //_attackBehaviour = player.GetComponent<AttackBehaviour>();  // Get the player's attack behaviour
             _movementBehaviour.IsMoving = true;
         }
     }
-
+    protected const float stopThreshold = 1.5f;
     private void Update()
     {
         if (_playerTarget == null) return;
-
-        // Make the zombie look at the player
+        
+        if (_isAttacking)
+        {
+            AnimatorStateInfo attackStateInfo = _animator.GetCurrentAnimatorStateInfo(1);  
+            if (attackStateInfo.IsName("Z_Attack") && attackStateInfo.normalizedTime >= 1f)
+            {
+                _isAttacking = false;
+            }
+            else
+            {
+                _movementBehaviour.IsMoving = false;
+            }
+        }
+        else
+        {
+            Vector3 horizontalDifference = _playerTarget.transform.position - transform.position;
+            horizontalDifference.y = 0; 
+            if (horizontalDifference.magnitude < stopThreshold)
+            {
+                _isAttacking = true;
+            }
+        }
+        HandleAttackAnimation();
+        
         LookAtPlayer();
-
-        // Move toward the player
+        
         HandleMovementAnimation();
         HandleMovement();
-        
-       
     }
-
+    private const string IS_ATTACKING_PARAM = "IsAttacking";
+    void HandleAttackAnimation()
+    {
+        if (_animator == null) return;
+        _animator.SetBool(IS_ATTACKING_PARAM, _isAttacking); // Update attacking layer
+    }
+    
     private const string IS_MOVING_PARAM = "IsMoving";
     void HandleMovementAnimation() 
     {
@@ -43,30 +68,26 @@ public class Zombie : BasicCharacter
     private void LookAtPlayer()
     {
         Vector3 direction = (_playerTarget.transform.position - transform.position).normalized;
-        direction.y = 0;  // Ensure the zombie doesn't tilt upwards or downwards
+        direction.y = 0; 
         transform.rotation = Quaternion.LookRotation(direction);
     }
 
     private void HandleMovement()
     {
         if (_movementBehaviour == null) return;
-        
         _movementBehaviour.Target = _playerTarget;
-        
     }
 
     private void Kill()
     {
-        Destroy(gameObject);  // Destroy the zombie when killed
+        Destroy(gameObject);  
     }
-
-    // Handle sword collision
+    
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the collider belongs to the player's sword and the player is currently attacking
         if (other.CompareTag("Sword"))
         {
-            Kill();  // Destroy zombie if hit by sword during an attack
+            Kill();  
         }
     }
 }
