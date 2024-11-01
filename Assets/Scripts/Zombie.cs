@@ -37,19 +37,24 @@ public class Zombie : BasicCharacter
         }
         else
         {
+            _movementBehaviour.IsMoving = true;
             Vector3 horizontalDifference = _playerTarget.transform.position - transform.position;
             horizontalDifference.y = 0; 
             if (horizontalDifference.magnitude < stopThreshold)
             {
                 _isAttacking = true;
+                _movementBehaviour.IsMoving = false;
             }
         }
         HandleAttackAnimation();
         
-        LookAtPlayer();
+        if (_movementBehaviour.IsMoving)
+        {
+            LookAtPlayer();
+            HandleMovementAnimation();
+            HandleMovement();
+        }
         
-        HandleMovementAnimation();
-        HandleMovement();
     }
     private const string IS_ATTACKING_PARAM = "IsAttacking";
     void HandleAttackAnimation()
@@ -76,6 +81,7 @@ public class Zombie : BasicCharacter
     {
         if (_movementBehaviour == null) return;
         _movementBehaviour.Target = _playerTarget;
+        _movementBehaviour.IsMoving = true;
     }
 
     public void Kill()
