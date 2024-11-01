@@ -78,7 +78,7 @@ public class Zombie : BasicCharacter
         _movementBehaviour.Target = _playerTarget;
     }
 
-    private void Kill()
+    public void Kill()
     {
         Destroy(gameObject);  
     }

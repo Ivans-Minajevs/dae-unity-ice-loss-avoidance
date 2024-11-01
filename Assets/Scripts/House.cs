@@ -32,6 +32,7 @@ public class House : MonoBehaviour
     }
     
     private const string PLAYER_TAG = "Friendly";
+    private const string ENEMY_TAG = "Enemy";
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(PLAYER_TAG))
@@ -42,6 +43,12 @@ public class House : MonoBehaviour
                 ActivateHouse();
                 father.SetHouse(this);
             }
+        }
+
+        if (other.CompareTag(ENEMY_TAG))
+        {
+            Zombie zombie = other.GetComponent<Zombie>();
+            zombie.Kill();
         }
     }
 
