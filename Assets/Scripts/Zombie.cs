@@ -18,7 +18,7 @@ public class Zombie : BasicCharacter
             _movementBehaviour.IsMoving = true;
         }
     }
-    protected const float stopThreshold = 1.5f;
+    private const float stopThreshold = 1.5f;
     private void Update()
     {
         if (_playerTarget == null) return;

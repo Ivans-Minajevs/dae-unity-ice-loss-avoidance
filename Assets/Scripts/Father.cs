@@ -17,6 +17,7 @@ public class Father : BasicCharacter
     
     [SerializeField] private Mechanism _mechanism;
     private Bonfire _currentBonfire;
+    private House _house;
     
     protected Animator _animator;
     private FatherInventory _inventory;
@@ -267,6 +268,15 @@ public class Father : BasicCharacter
             _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
         }
     }
+
+    public void SetHouse(House house)
+    {
+        _house = house;
+        if (_frostReductionCoroutine == null)
+        {
+            _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
+        }
+    }
     private IEnumerator DecreaseFrostOverTime()
     {
         while (_currentBonfire != null)
@@ -275,7 +285,17 @@ public class Father : BasicCharacter
             {
                 _frostbite.Heat(10);  // Decrease frost value
             }
-            yield return new WaitForSeconds(2f);  // Wait for 2 seconds before the next decrease
+            yield return new WaitForSeconds(0f); 
+        }
+    }
+
+    public void ClearHouse()
+    {
+        _house = null;
+        if (_frostReductionCoroutine != null)
+        {
+            StopCoroutine(_frostReductionCoroutine);
+            _frostReductionCoroutine = null;
         }
     }
 
