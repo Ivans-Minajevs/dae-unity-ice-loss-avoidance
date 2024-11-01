@@ -1798,6 +1798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab6d18dc44c82ac429a42ff59b7567ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackVFXTemplate: {fileID: 3065202853065137709, guid: 3699d3e9914a94f4d9b343855a11ba0f, type: 3}
 --- !u!95 &5187337325560534622
 Animator:
   serializedVersion: 5

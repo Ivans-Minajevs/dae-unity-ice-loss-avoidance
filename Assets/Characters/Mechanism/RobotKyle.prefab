@@ -1020,7 +1020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rightArm: {fileID: 8000746885750060998}
-  _heart: {fileID: 0}
+  _heartMat: {fileID: 2100000, guid: 8d7e1624e82c95640b482bd76aa2bbad, type: 2}
 --- !u!1 &3930347420217287377
 GameObject:
   m_ObjectHideFlags: 0

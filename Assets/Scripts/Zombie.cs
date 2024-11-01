@@ -6,6 +6,7 @@ public class Zombie : BasicCharacter
 {
     private Animator _animator;
     private GameObject _playerTarget;
+    [SerializeField] private GameObject _attackVFXTemplate = null;
     private bool _isAttacking = false;
     private void Start()
     {
@@ -85,7 +86,9 @@ public class Zombie : BasicCharacter
     }
 
     public void Kill()
-    {
+    { 
+        if (_attackVFXTemplate)
+            Instantiate(_attackVFXTemplate, transform.position, transform.rotation);
         Destroy(gameObject);  
     }
     
