@@ -2675,6 +2675,10 @@ PrefabInstance:
       propertyPath: _mechanism
       value: 
       objectReference: {fileID: 164015739}
+    - target: {fileID: 7194498494160423478, guid: c888647adde44ac41a6676a519c11d37, type: 3}
+      propertyPath: _attackVFXTemplate
+      value: 
+      objectReference: {fileID: 3065202853065137709, guid: 3699d3e9914a94f4d9b343855a11ba0f, type: 3}
     - target: {fileID: 8353000955861009280, guid: c888647adde44ac41a6676a519c11d37, type: 3}
       propertyPath: woodCount
       value: 3

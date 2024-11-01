@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class Father : BasicCharacter
 {
+    
     [SerializeField] private InputActionAsset _inputAsset;
 
     [SerializeField] private InputActionReference _movementAction;
@@ -16,6 +17,7 @@ public class Father : BasicCharacter
     [SerializeField] private InputActionReference _interact;
     
     [SerializeField] private Mechanism _mechanism;
+    [SerializeField] private GameObject _attackVFXTemplate = null;
     private Bonfire _currentBonfire;
     private House _house;
     
@@ -319,5 +321,12 @@ public class Father : BasicCharacter
     public void ClearCurrentCollectible()
     {
         _currentCollectible = null;
+    }
+    
+    public void Kill()
+    { 
+        if (_attackVFXTemplate)
+            Instantiate(_attackVFXTemplate, transform.position, transform.rotation);
+        Destroy(gameObject);  
     }
 }

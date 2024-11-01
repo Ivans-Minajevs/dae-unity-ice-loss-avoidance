@@ -32,7 +32,7 @@ public class Frostbite: MonoBehaviour
     }
     void Kill()
     {
-        Destroy(gameObject);
+        gameObject.GetComponent<Father>().Kill();
     }
 }
 
