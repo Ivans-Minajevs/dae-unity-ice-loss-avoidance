@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3860813896405864924}
   - component: {fileID: 1241304968042788857}
   - component: {fileID: 4175758176338957372}
+  - component: {fileID: 2188459356062766674}
   m_Layer: 8
   m_Name: House
   m_TagString: House
@@ -62,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ba94b0b7058eaff468d17be496c00c5c, type: 2}
+  - {fileID: 2100000, guid: 996190a68db19bb47954ec365d371eae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,3 +106,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2188459356062766674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4065670083935378723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eec7ff28fae9044782153e940973e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  houseMaterial: {fileID: 2100000, guid: 996190a68db19bb47954ec365d371eae, type: 2}

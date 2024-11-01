@@ -68,19 +68,22 @@ public class Father : BasicCharacter
 
         if (_movementAction.action.IsPressed())
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 2000, int.MaxValue, QueryTriggerInteraction.Ignore))
+            if (Camera.main != null)
             {
-                _attackBehaviour.EndAttack();
-                _isAttackActivated = false;
-                // Move normally to clicked position
-                Vector3 targetPosition = hit.point;
-                targetPosition.y = transform.position.y;
-                _movementBehaviour.DesiredMovementDirection = (targetPosition - transform.position).normalized;
-                _movementBehaviour.IsMoving = true;
-                _movementBehaviour.EndPosition = targetPosition;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, 2000, int.MaxValue, QueryTriggerInteraction.Ignore))
+                {
+                    _attackBehaviour.EndAttack();
+                    _isAttackActivated = false;
+                    // Move normally to clicked position
+                    Vector3 targetPosition = hit.point;
+                    targetPosition.y = transform.position.y;
+                    _movementBehaviour.DesiredMovementDirection = (targetPosition - transform.position).normalized;
+                    _movementBehaviour.IsMoving = true;
+                    _movementBehaviour.EndPosition = targetPosition;
+                }
             }
         }
     }
@@ -265,7 +268,7 @@ public class Father : BasicCharacter
         // Start the coroutine to decrease frost
         if (_frostReductionCoroutine == null)
         {
-            _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
+            if (_currentBonfire.IsActive()) _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
         }
     }
 
@@ -274,18 +277,15 @@ public class Father : BasicCharacter
         _house = house;
         if (_frostReductionCoroutine == null)
         {
-            _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
+            if (_house.IsActive()) _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
         }
     }
     private IEnumerator DecreaseFrostOverTime()
     {
-        while (_currentBonfire != null)
+        while (_currentBonfire != null || _house!=null )
         {
-            if (_currentBonfire.IsActive())
-            {
-                _frostbite.Heat(10);  // Decrease frost value
-            }
-            yield return new WaitForSeconds(0f); 
+            _frostbite.Heat(10);  // Decrease frost value
+            yield return new WaitForSeconds(1f); 
         }
     }
 
