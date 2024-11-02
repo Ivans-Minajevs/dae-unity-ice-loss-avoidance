@@ -13,11 +13,16 @@ public class DialogueManager : MonoBehaviour
     private Father _father;
     private List<string> _options = new()
     {
-        "Build arm (requires resources)",
-        "Build heart",
-        "Inspect mechanism",
-        "Ask about functionality"
+        "Build arm (2 Metal, 2 Plastic, 1 Wood)",
+        "Build heart (2 Metal, 2 Plastic, 1 Wood)",
+        "Ask for direction",
+        "Ask about surviving",
+        "Ask about zombies"
     };
+
+    private bool _isArmBuilt = false;
+    private bool _isHeartBuilt = false;
+    
     void Awake()
     {
         _father = FindObjectOfType<Father>();
@@ -83,42 +88,76 @@ public class DialogueManager : MonoBehaviour
         // Handle what happens when an option is selected
         switch (option)
         {
-            case "Build arm (requires resources)":
-                
-                if (_father != null)
+            case "Build arm (2 Metal, 2 Plastic, 1 Wood)":
+                if (!_isArmBuilt)
                 {
-                    bool isBuild = _father.TryBuildRobotPart("Arm", 2, 2, 1);
-                    if (isBuild)
+                    if (_father != null)
                     {
-                        _answerText.text = "Arm was successfully built";
-                    }
-                    else
-                    {
-                        _answerText.text = "Not enough resources to built an arm";
+                        _isArmBuilt = _father.TryBuildRobotPart("Arm", 2, 2, 1);
+                        if (_isArmBuilt)
+                        {
+                            _answerText.text = "Arm was successfully built";
+                        }
+                        else
+                        {
+                            _answerText.text = "Not enough resources to built an arm";
+                        }
                     }
                 }
-                break;
-            case "Build heart":
-                if (_father != null)
+                else
                 {
-                    bool isBuild = _father.TryBuildRobotPart("Heart", 2, 2, 1);
-                    if (isBuild)
-                    {
-                        _answerText.text = "Heart was successfully built";
-                    }
-                    else
-                    {
-                        _answerText.text = "Not enough resources to built a heart";
-                    }
+                    _answerText.text = "Arm is already built";
                 }
                 break;
-            case "Inspect mechanism":
+            case "Build heart (2 Metal, 2 Plastic, 1 Wood)":
+                if (!_isHeartBuilt)
+                {
+                    if (_father != null)
+                    {
+                        _isHeartBuilt = _father.TryBuildRobotPart("Heart", 2, 2, 1);
+                        if (_isHeartBuilt)
+                        {
+                            _answerText.text = "Heart was successfully built";
+                        }
+                        else
+                        {
+                            _answerText.text = "Not enough resources to built a heart";
+                        }
+                    }
+                }
+                else
+                {
+                    _answerText.text = "Heart is already built";
+                }
+                break;
+            case "Ask for direction":
                 // Logic for inspecting the mechanism
-                _answerText.text = "This mechanism is designed ";
+                if (!_isHeartBuilt && !_isArmBuilt)
+                {
+                    _answerText.text = "I don't have an arm. Building it requires plastic, \n" +
+                                       "it is mostly located on the WEST";
+                }
+                else if (_isArmBuilt && !_isHeartBuilt)
+                {
+                    _answerText.text =
+                        "Last component is my hear. I cant function without it. Heart requires metal. \n" +
+                        "Deposits were discovered NORTH of here.";
+                }
+                else if (_isArmBuilt && _isHeartBuilt)
+                {
+                    _answerText.text = "We did it, Father. I can... I can... Thank you. (crying)";
+                }
+                
                 break;
-            case "Ask about functionality":
+            case "Ask about surviving":
                 // Logic for asking about functionality
-                _answerText.text = "I can help you build and repair components.";
+                _answerText.text = "Its really cold outside, so always keep in mind your frostbite level. \n" +
+                                   "Make sure you light bonfires located on the map.";
+                break;
+            case "Ask about zombies":
+                _answerText.text =
+                    "Zombies are very dangerous creatures, mainly spotted near sources. \n" +
+                    "Be careful and dont rush into the fight, otherwise you will get killed.";
                 break;
         }
 
