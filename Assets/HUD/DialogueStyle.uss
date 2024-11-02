@@ -45,7 +45,7 @@
 
 /* Style for the back button */
 .back-button {
-    background-color: #ff5722; /* Distinct color for back button */
+    background-color: cadetblue; /* Distinct color for back button */
     color: #ffffff;
     padding: 10px;
     border-radius: 5px;
@@ -55,7 +55,7 @@
 
 /* Back button hover effect */
 .back-button:hover {
-    background-color: #e64a19; /* Darker shade on hover */
+    background-color: cadetblue; /* Darker shade on hover */
 }
 
 /* Footer styling */
