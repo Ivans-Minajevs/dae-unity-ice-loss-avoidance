@@ -16,6 +16,7 @@ public class Father : BasicCharacter
     [SerializeField] private InputActionReference _ability2;
     [SerializeField] private InputActionReference _interact;
     
+    private DialogueManager _dialogueManager;
     [SerializeField] private Mechanism _mechanism;
     [SerializeField] private GameObject _attackVFXTemplate = null;
     private Bonfire _currentBonfire;
@@ -44,6 +45,7 @@ public class Father : BasicCharacter
         _frostbite = GetComponent<Frostbite>();
         _energy = GetComponent<Energy>();
         _health = GetComponent<Health>();
+        _dialogueManager = FindObjectOfType<DialogueManager>();
         InvokeRepeating("IncreaseFrostbiteValue", 5f, 2f);
         InvokeRepeating("DecreaseEnergyValue", 5f, 2f);
     }
@@ -146,7 +148,13 @@ public class Father : BasicCharacter
         } 
         if (_interact.action.IsPressed() && Vector3.Distance(transform.position, _mechanism.GetPosition()) < 1.0f)
         {
-            TryBuildRobotPart("Arm", 2, 1, 1); 
+            List<string> options = new List<string>
+            {
+                "Build arm (requires resources)",
+                "Inspect mechanism",
+                "Ask about functionality"
+            };
+            _dialogueManager.ShowDialogue(options);
         }
 
         if (_interact.action.IsPressed() && _currentBonfire != null)
