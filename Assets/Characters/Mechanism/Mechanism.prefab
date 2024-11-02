@@ -937,7 +937,7 @@ GameObject:
   - component: {fileID: 4738558639147882546}
   - component: {fileID: 341355854102962014}
   m_Layer: 8
-  m_Name: RobotKyle
+  m_Name: Mechanism
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

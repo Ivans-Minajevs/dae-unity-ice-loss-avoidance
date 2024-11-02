@@ -35,6 +35,7 @@ public class Father : BasicCharacter
     protected bool _isAttackActivated = false;
     private Collectible _currentCollectible;
     private Coroutine _frostReductionCoroutine;
+    private Coroutine _healthIncreaseCoroutine;
 
     private void Start()
     {
@@ -277,9 +278,13 @@ public class Father : BasicCharacter
     public void SetHouse(House house)
     {
         _house = house;
-        if (_frostReductionCoroutine == null)
+        if (_frostReductionCoroutine == null && _healthIncreaseCoroutine == null)
         {
-            if (_house.IsActive()) _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
+            if (_house.IsActive())
+            {
+                _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
+                _healthIncreaseCoroutine = StartCoroutine(IncreaseHealthOverTime());
+            }
         }
     }
     private IEnumerator DecreaseFrostOverTime()
@@ -288,6 +293,15 @@ public class Father : BasicCharacter
         {
             _frostbite.Heat(10);  // Decrease frost value
             yield return new WaitForSeconds(1f); 
+        }
+    }
+
+    private IEnumerator IncreaseHealthOverTime()
+    {
+        while (_house != null)
+        {
+            _health.Heal(1);
+            yield return new WaitForSeconds(0f); 
         }
     }
 
