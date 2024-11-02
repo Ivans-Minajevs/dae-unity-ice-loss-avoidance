@@ -141,7 +141,6 @@ public class Father : BasicCharacter
     void HandleCollectingInput()
     {
         if (_interact == null) return;
-        Debug.Log("Distance to Mechanism: " + Vector3.Distance(transform.position, _mechanism.GetPosition()));
         if (_interact.action.IsPressed() && _currentCollectible != null)
         {
             CollectMaterial();
