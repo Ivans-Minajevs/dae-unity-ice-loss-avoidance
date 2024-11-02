@@ -36,32 +36,9 @@ public class DialogueManager : MonoBehaviour
         _footer = root.Q<Label>("Footer");
         
         _dialoguePanel.style.display = DisplayStyle.None;
-
-        //foreach (var question in questionsAndAnswers.Keys)
-        //{
-        //    Button questionButton = new Button
-        //    {
-        //        text = question,
-        //        name = "QuestionButton"
-        //    };
-        //    questionButton.AddToClassList("question-button");
-        //    questionButton.clicked += () => ShowAnswer(question);
-        //    _questionList.Add(questionButton);
-        //}
-
         _backButton.clicked += GoBack;
     }
-
-    //private void ShowAnswer(string question)
-    //{
-    //    if (questionsAndAnswers.TryGetValue(question, out string answer))
-    //    {
-    //        _answerText.text = answer;
-    //        _footer.text = "";  
-    //        _questionList.style.display = DisplayStyle.None; // Hide the question list
-    //        _backButton.style.visibility = Visibility.Visible;
-    //    }
-    //}
+    
 
     private void GoBack()
     {
