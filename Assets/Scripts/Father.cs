@@ -147,13 +147,7 @@ public class Father : BasicCharacter
         } 
         if (_interact.action.IsPressed() && Vector3.Distance(transform.position, _mechanism.GetPosition()) < 1.0f)
         {
-            List<string> options = new List<string>
-            {
-                "Build arm (requires resources)",
-                "Inspect mechanism",
-                "Ask about functionality"
-            };
-            _dialogueManager.ShowDialogue(options);
+            _dialogueManager.ShowDialogue();
         }
 
         if (_interact.action.IsPressed() && _currentBonfire != null)
@@ -176,15 +170,17 @@ public class Father : BasicCharacter
     }
     
     
-    private void TryBuildRobotPart(string part, int requiredMetal, int requiredPlastic, int requiredWood)
+    public bool TryBuildRobotPart(string part, int requiredMetal, int requiredPlastic, int requiredWood)
     {
         if (_inventory.SpendResources(requiredMetal, requiredPlastic, requiredWood))
         {
-            _mechanism.EnablePart(part);  // Enable the robot's part if resources are spent
+            _mechanism.EnablePart(part);
+            return true;
         }
         else
         {
             Debug.Log("Not enough resources to build the " + part);
+            return false;
         }
     }
 
@@ -285,14 +281,13 @@ public class Father : BasicCharacter
     public void SetHouse(House house)
     {
         _house = house;
-        if (_frostReductionCoroutine == null && _healthIncreaseCoroutine == null)
+       
+        if (_house.IsActive())
         {
-            if (_house.IsActive())
-            {
-                _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
-                _healthIncreaseCoroutine = StartCoroutine(IncreaseHealthOverTime());
-            }
+            _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
+            _healthIncreaseCoroutine = StartCoroutine(IncreaseHealthOverTime());
         }
+        
     }
     private IEnumerator DecreaseFrostOverTime()
     {
@@ -308,7 +303,7 @@ public class Father : BasicCharacter
         while (_house != null)
         {
             _health.Heal(1);
-            yield return new WaitForSeconds(0f); 
+            yield return new WaitForSeconds(1f); 
         }
     }
 

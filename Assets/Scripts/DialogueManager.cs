@@ -10,14 +10,18 @@ public class DialogueManager : MonoBehaviour
     private VisualElement _questionList;
     private Button _backButton;
     private Label _footer;
-
-    // Dictionary to hold questions and their corresponding answers
-    private Dictionary<string, string> questionsAndAnswers = new Dictionary<string, string>
+    private Father _father;
+    private List<string> _options = new()
     {
-        { "What is your purpose?", "I am here to assist you!" },
-        { "What is your favorite color?", "I like blue, it's very calming." },
-        { "Do you require assistance?", "I am always ready to help!" }
+        "Build arm (requires resources)",
+        "Build heart",
+        "Inspect mechanism",
+        "Ask about functionality"
     };
+    void Awake()
+    {
+        _father = FindObjectOfType<Father>();
+    }
 
     private void OnEnable()
     {
@@ -33,44 +37,45 @@ public class DialogueManager : MonoBehaviour
         
         _dialoguePanel.style.display = DisplayStyle.None;
 
-        foreach (var question in questionsAndAnswers.Keys)
-        {
-            Button questionButton = new Button
-            {
-                text = question,
-                name = "QuestionButton"
-            };
-            questionButton.AddToClassList("question-button");
-            questionButton.clicked += () => ShowAnswer(question);
-            _questionList.Add(questionButton);
-        }
+        //foreach (var question in questionsAndAnswers.Keys)
+        //{
+        //    Button questionButton = new Button
+        //    {
+        //        text = question,
+        //        name = "QuestionButton"
+        //    };
+        //    questionButton.AddToClassList("question-button");
+        //    questionButton.clicked += () => ShowAnswer(question);
+        //    _questionList.Add(questionButton);
+        //}
 
         _backButton.clicked += GoBack;
     }
 
-    private void ShowAnswer(string question)
-    {
-        if (questionsAndAnswers.TryGetValue(question, out string answer))
-        {
-            _answerText.text = answer;
-            _footer.text = "";  
-            _questionList.style.display = DisplayStyle.None; // Hide the question list
-            _backButton.style.visibility = Visibility.Visible;
-        }
-    }
+    //private void ShowAnswer(string question)
+    //{
+    //    if (questionsAndAnswers.TryGetValue(question, out string answer))
+    //    {
+    //        _answerText.text = answer;
+    //        _footer.text = "";  
+    //        _questionList.style.display = DisplayStyle.None; // Hide the question list
+    //        _backButton.style.visibility = Visibility.Visible;
+    //    }
+    //}
 
     private void GoBack()
     {
-        // Hide the answer and show the question list again
-        _answerText.text = "Select a question to see the answer.";
-        _questionList.style.display = DisplayStyle.Flex; // Show the question list
-        _backButton.style.visibility = Visibility.Hidden; // Hide the back button
+        //_answerText.text = "Select a question to see the answer.";
+        _dialoguePanel.style.display = DisplayStyle.None;
+        _questionList.style.display = DisplayStyle.Flex; 
+        _backButton.style.visibility = Visibility.Hidden; 
+        
     }
 
     // New method to show dialogue options
-    public void ShowDialogue(List<string> options)
+    public void ShowDialogue()
     {
-        Debug.Log("ShowDialogue called with options: " + string.Join(", ", options));
+        Debug.Log("ShowDialogue called with options: " + string.Join(", ", _options));
         
         // Show the dialogue panel
         _dialoguePanel.style.display = DisplayStyle.Flex;
@@ -79,7 +84,7 @@ public class DialogueManager : MonoBehaviour
         _questionList.Clear();
 
         // Add each option to the question list
-        foreach (var option in options)
+        foreach (var option in _options)
         {
             Button optionButton = new Button
             {
@@ -102,12 +107,37 @@ public class DialogueManager : MonoBehaviour
         switch (option)
         {
             case "Build arm (requires resources)":
-                // Trigger the build arm logic
-                Debug.Log("Attempting to build the arm...");
+                
+                if (_father != null)
+                {
+                    bool isBuild = _father.TryBuildRobotPart("Arm", 2, 2, 1);
+                    if (isBuild)
+                    {
+                        _answerText.text = "Arm was successfully built";
+                    }
+                    else
+                    {
+                        _answerText.text = "Not enough resources to built an arm";
+                    }
+                }
+                break;
+            case "Build heart":
+                if (_father != null)
+                {
+                    bool isBuild = _father.TryBuildRobotPart("Heart", 2, 2, 1);
+                    if (isBuild)
+                    {
+                        _answerText.text = "Heart was successfully built";
+                    }
+                    else
+                    {
+                        _answerText.text = "Not enough resources to built a heart";
+                    }
+                }
                 break;
             case "Inspect mechanism":
                 // Logic for inspecting the mechanism
-                _answerText.text = "This mechanism is capable of various tasks.";
+                _answerText.text = "This mechanism is designed ";
                 break;
             case "Ask about functionality":
                 // Logic for asking about functionality
@@ -116,7 +146,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         // Hide options after selection
-        _questionList.style.display = DisplayStyle.None; // Hide the options
-        _backButton.style.visibility = Visibility.Visible; // Ensure back button is visible
+        _questionList.style.display = DisplayStyle.None;
+        _backButton.style.visibility = Visibility.Visible;
     }
 }
