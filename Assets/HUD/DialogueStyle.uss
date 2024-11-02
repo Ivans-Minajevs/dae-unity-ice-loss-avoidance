@@ -1,0 +1,44 @@
+#DialoguePanel {
+    width: 300px;
+    padding: 15px;
+    background-color: #333;
+    border-radius: 10px;
+    margin: auto;
+}
+
+#DialogueText {
+    color: white;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+#OptionContainer {
+    height: 150px;
+    padding: 5px;
+    background-color: #222;
+    border: 1px solid #555;
+    border-radius: 5px;
+    overflow-y: scroll;
+}
+
+.option-button {
+    color: white;
+    background-color: #444;
+    margin: 5px 0;
+    padding: 8px 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.option-button:hover {
+    background-color: #666;
+}
+
+#Footer {
+    color: #888;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 10px;
+}
