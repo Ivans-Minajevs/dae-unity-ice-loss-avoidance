@@ -35,7 +35,7 @@
     margin-bottom: 5px;
     border-radius: 5px;
     cursor: arrow;
-    text-align: left; /* Align text to the left */
+    -unity-text-align: middle-left; /* Align text to the left */
 }
 
 /* Hover effect for question buttons */
@@ -62,6 +62,6 @@
 .footer {
     color: #888;
     font-size: 12px;
-    text-align: center;
+    -unity-text-align: middle-center;
     margin-top: 10px;
 }

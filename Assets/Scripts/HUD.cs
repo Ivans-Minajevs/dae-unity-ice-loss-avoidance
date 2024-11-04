@@ -4,9 +4,14 @@ using System.Diagnostics.Tracing;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class HUD : MonoBehaviour
 {
+
+    [SerializeField] Volume _globalVolume;
+    
     [SerializeField] protected StyleSheet sheet;
     
     private UIDocument _attachedDocument;
@@ -125,6 +130,12 @@ public class HUD : MonoBehaviour
     public void UpdateFrostbite(float maxFrostbite, float currentFrostbite)
     {
         if (_frostbiteBar == null) return;
+        
+        //vignette.intensity.value = currentFrostbite/maxFrostbite;
+        if (_globalVolume.profile.TryGet(out Vignette vignette))
+        {
+            vignette.intensity.value = currentFrostbite / maxFrostbite;
+        }
 
         _frostbiteBar.value = currentFrostbite / maxFrostbite * 100;
         _frostbiteBar.title = string.Format("{0}/{1}", currentFrostbite, maxFrostbite);
