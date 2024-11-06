@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Father : BasicCharacter
 {
@@ -343,5 +344,6 @@ public class Father : BasicCharacter
         if (_attackVFXTemplate)
             Instantiate(_attackVFXTemplate, transform.position, transform.rotation);
         Destroy(gameObject);  
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
