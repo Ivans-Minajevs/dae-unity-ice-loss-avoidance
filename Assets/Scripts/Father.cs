@@ -270,6 +270,11 @@ public class Father : BasicCharacter
     public void SetCurrentBonfire(Bonfire bonfire)
     {
         _currentBonfire = bonfire;
+
+        if (_currentBonfire.IsActive())
+        {
+            _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
+        }
     }
 
     public void SetHouse(House house)
@@ -283,7 +288,7 @@ public class Father : BasicCharacter
         }
         
     }
-    private IEnumerator DecreaseFrostOverTime()
+    public IEnumerator DecreaseFrostOverTime()
     {
         while ((_house != null && _house.IsActive()) || (_currentBonfire != null && _currentBonfire.IsActive()))
         {
