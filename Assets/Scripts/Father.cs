@@ -150,9 +150,12 @@ public class Father : BasicCharacter
             _dialogueManager.ShowDialogue();
         }
 
-        if (_interact.action.IsPressed() && _currentBonfire != null)
+        if (_interact.action.IsPressed() && _currentBonfire != null && _currentBonfire.IsActive() == false)
         {
-            TryActivateBonfire(1, 3);
+            if (TryActivateBonfire(1, 3))
+            {
+                _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
+            }
         }
     }
 
@@ -184,26 +187,23 @@ public class Father : BasicCharacter
         }
     }
 
-    private void TryActivateBonfire(int requiredPlastic, int requiredWood)
+    private bool TryActivateBonfire(int requiredPlastic, int requiredWood)
     {
         if (_inventory.SpendResources(0, requiredPlastic, requiredWood))
         {
             _currentBonfire.ActivateBonfire();
+            return true;
         }
         else
         {
             Debug.Log("Not enough resources to build the bonfire");
+            return false;
         }
     }
 
     void IncreaseFrostbiteValue()
     {
         _frostbite.Freeze(5);
-    }
-
-    void DecreaseFrostbiteValue()
-    {
-        _frostbite.Heat(10);
     }
 
     void DecreaseEnergyValue()
@@ -270,12 +270,6 @@ public class Father : BasicCharacter
     public void SetCurrentBonfire(Bonfire bonfire)
     {
         _currentBonfire = bonfire;
-        
-        // Start the coroutine to decrease frost
-        if (_frostReductionCoroutine == null)
-        {
-            if (_currentBonfire.IsActive()) _frostReductionCoroutine = StartCoroutine(DecreaseFrostOverTime());
-        }
     }
 
     public void SetHouse(House house)
@@ -291,7 +285,7 @@ public class Father : BasicCharacter
     }
     private IEnumerator DecreaseFrostOverTime()
     {
-        while (_currentBonfire != null || _house!=null )
+        while ((_house != null && _house.IsActive()) || (_currentBonfire != null && _currentBonfire.IsActive()))
         {
             _frostbite.Heat(10);  // Decrease frost value
             yield return new WaitForSeconds(1f); 
