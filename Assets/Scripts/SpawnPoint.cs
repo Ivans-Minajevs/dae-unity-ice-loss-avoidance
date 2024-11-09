@@ -40,11 +40,11 @@ public class SpawnPoint : MonoBehaviour
 //
         //return false;
         
-        var _father = FindObjectOfType<Father>();
+        var father = FindObjectOfType<Father>();
         
-        if (_father != null)
+        if (father != null)
         {
-            float distanceToCharacter = Vector3.Distance(transform.position, _father.transform.position);
+            float distanceToCharacter = Vector3.Distance(transform.position, father.transform.position);
             return distanceToCharacter <= _detectionRadius;
         }
 
