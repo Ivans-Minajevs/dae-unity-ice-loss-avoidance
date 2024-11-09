@@ -26091,6 +26091,63 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 878046766}
   m_SourcePrefab: {fileID: 100100000, guid: 595b7f82c3c768343b4daa76e0ee90c7, type: 3}
+--- !u!1001 &3281312698189680106
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3555990777906715993, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -25.809769
+      objectReference: {fileID: 0}
+    - target: {fileID: 3555990777906715993, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -47.379448
+      objectReference: {fileID: 0}
+    - target: {fileID: 3555990777906715993, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 73.689674
+      objectReference: {fileID: 0}
+    - target: {fileID: 3555990777906715993, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3555990777906715993, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3555990777906715993, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3555990777906715993, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3555990777906715993, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3555990777906715993, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3555990777906715993, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6741999221755733464, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
+      propertyPath: m_Name
+      value: SplashAudio
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e038dfc2c33b60c4e865d77521372a7b, type: 3}
 --- !u!1001 &6565256511195329111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26514,3 +26571,4 @@ SceneRoots:
   - {fileID: 1130412813}
   - {fileID: 2115443070}
   - {fileID: 1235913900}
+  - {fileID: 3281312698189680106}

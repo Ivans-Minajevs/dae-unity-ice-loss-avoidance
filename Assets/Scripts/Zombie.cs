@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Zombie : BasicCharacter
 {
@@ -8,6 +9,9 @@ public class Zombie : BasicCharacter
     private GameObject _playerTarget;
     [SerializeField] private GameObject _attackVFXTemplate = null;
     private bool _isAttacking = false;
+
+    [SerializeField] private GameObject audioSourcePrefab;  
+    [SerializeField] private UnityEvent _onDeathEvent;
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -89,6 +93,18 @@ public class Zombie : BasicCharacter
     { 
         if (_attackVFXTemplate)
             Instantiate(_attackVFXTemplate, transform.position, transform.rotation);
+        
+        if (audioSourcePrefab)
+        {
+            GameObject audioSourceInstance = Instantiate(audioSourcePrefab, transform.position, Quaternion.identity);
+            AudioSource audio = audioSourceInstance.GetComponent<AudioSource>();
+            if (audio != null)
+            {
+                audio.Play();
+                Destroy(audioSourceInstance, audio.clip.length); 
+            }
+        }
+        _onDeathEvent?.Invoke();
         Destroy(gameObject);  
     }
     
