@@ -46,7 +46,6 @@ public class Father : BasicCharacter
         _health = GetComponent<Health>();
         _dialogueManager = FindObjectOfType<DialogueManager>();
         InvokeRepeating("IncreaseFrostbiteValue", 5f, 2f);
-        InvokeRepeating("DecreaseEnergyValue", 5f, 2f);
     }
 
     private void OnEnable()
