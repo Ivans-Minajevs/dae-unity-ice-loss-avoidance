@@ -13,8 +13,8 @@ public class DialogueManager : MonoBehaviour
     private Father _father;
     private List<string> _options = new()
     {
-        "Build arm (2 Metal, 2 Plastic, 1 Wood)",
-        "Build heart (2 Metal, 2 Plastic, 1 Wood)",
+        "Build arm (1 Metal, 5 Plastic, 1 Wood)",
+        "Build heart (6 Metal, 2 Plastic, 0 Wood)",
         "Ask for direction",
         "Ask about surviving",
         "Ask about zombies"
@@ -88,12 +88,12 @@ public class DialogueManager : MonoBehaviour
         // Handle what happens when an option is selected
         switch (option)
         {
-            case "Build arm (2 Metal, 2 Plastic, 1 Wood)":
+            case "Build arm (1 Metal, 5 Plastic, 1 Wood)":
                 if (!_isArmBuilt)
                 {
                     if (_father != null)
                     {
-                        _isArmBuilt = _father.TryBuildRobotPart("Arm", 2, 2, 1);
+                        _isArmBuilt = _father.TryBuildRobotPart("Arm", 1, 5, 1);
                         if (_isArmBuilt)
                         {
                             _answerText.text = "Arm was successfully built";
@@ -108,13 +108,14 @@ public class DialogueManager : MonoBehaviour
                 {
                     _answerText.text = "Arm is already built";
                 }
+
                 break;
-            case "Build heart (2 Metal, 2 Plastic, 1 Wood)":
+            case "Build heart (6 Metal, 2 Plastic, 0 Wood)":
                 if (!_isHeartBuilt)
                 {
                     if (_father != null)
                     {
-                        _isHeartBuilt = _father.TryBuildRobotPart("Heart", 2, 2, 1);
+                        _isHeartBuilt = _father.TryBuildRobotPart("Heart", 6, 2, 0);
                         if (_isHeartBuilt)
                         {
                             _answerText.text = "Heart was successfully built";
@@ -129,6 +130,7 @@ public class DialogueManager : MonoBehaviour
                 {
                     _answerText.text = "Heart is already built";
                 }
+
                 break;
             case "Ask for direction":
                 // Logic for inspecting the mechanism
@@ -140,19 +142,23 @@ public class DialogueManager : MonoBehaviour
                 else if (_isArmBuilt && !_isHeartBuilt)
                 {
                     _answerText.text =
-                        "Last component is my hear. I cant function without it. Heart requires metal. \n" +
-                        "Deposits were discovered NORTH of here.";
+                        "Last component is my hear. I cant function without it. \n" +
+                        "Heart requires metal. Deposits were discovered NORTH of here.";
                 }
                 else if (_isArmBuilt && _isHeartBuilt)
                 {
-                    _answerText.text = "We did it, Father. I can... I can... Thank you. (crying)";
+                    _answerText.text = "We did it, Father. I can... I can... Thank you. (crying) \n" +
+                                       "GAME IS COMPLETE";
                 }
-                
+
                 break;
             case "Ask about surviving":
                 // Logic for asking about functionality
                 _answerText.text = "Its really cold outside, so always keep in mind your frostbite level. \n" +
-                                   "Make sure you light bonfires located on the map.";
+                                   "Make sure you light bonfires located on the map. \n" +
+                                   "House is your place to restore health and frostbite."
+
+        ;
                 break;
             case "Ask about zombies":
                 _answerText.text =
