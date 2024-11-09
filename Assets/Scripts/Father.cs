@@ -27,7 +27,6 @@ public class Father : BasicCharacter
     private FatherInventory _inventory;
 
     private Frostbite _frostbite;
-    private Energy _energy;
     private Health _health;
 
     private static readonly string IS_MOVING_PARAM = "IsMoving";
@@ -44,7 +43,6 @@ public class Father : BasicCharacter
         _animator = transform.GetComponent<Animator>();
         _inventory = GetComponent<FatherInventory>();
         _frostbite = GetComponent<Frostbite>();
-        _energy = GetComponent<Energy>();
         _health = GetComponent<Health>();
         _dialogueManager = FindObjectOfType<DialogueManager>();
         InvokeRepeating("IncreaseFrostbiteValue", 5f, 2f);
@@ -205,11 +203,6 @@ public class Father : BasicCharacter
     void IncreaseFrostbiteValue()
     {
         _frostbite.Freeze(5);
-    }
-
-    void DecreaseEnergyValue()
-    {
-        _energy.Tire(1);
     }
 
     public void DecreaseHealth()

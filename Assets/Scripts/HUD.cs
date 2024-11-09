@@ -18,7 +18,6 @@ public class HUD : MonoBehaviour
     private VisualElement _root;
 
     private ProgressBar _healthBar;
-    private ProgressBar _staminaBar;
     private ProgressBar _frostbiteBar;
 
     private Label _metalLabel;
@@ -37,7 +36,6 @@ public class HUD : MonoBehaviour
         if (_root != null)
         {
             _healthBar = _root.Q<ProgressBar>("FatherHealthBar");
-            _staminaBar = _root.Q<ProgressBar>("FatherStaminaBar");
             _frostbiteBar = _root.Q<ProgressBar>("FatherFrostbiteBar");
             
            _root.styleSheets.Add(sheet);
@@ -61,14 +59,6 @@ public class HUD : MonoBehaviour
                     UpdateHealth(fatherHealth.StartHealth, fatherHealth.CurrentHealth);
 
                     fatherHealth.OnHealthChanged += UpdateHealth;
-                }
-
-                Energy fatherEnergy = father.GetComponent<Energy>();
-                if (fatherEnergy)
-                {
-                    UpdateEnergy(fatherEnergy.StartEnergy, fatherEnergy.CurrentEnergy);
-
-                    fatherEnergy.OnEnergyChanged += UpdateEnergy;
                 }
 
                 Frostbite fatherFrostbite = father.GetComponent<Frostbite>();
@@ -117,14 +107,6 @@ public class HUD : MonoBehaviour
 
         _healthBar.value = currentHealth / startHealth * 100;
         _healthBar.title = string.Format("{0}/{1}", currentHealth, startHealth);
-    }
-
-    public void UpdateEnergy(float startEnergy, float currentEnergy)
-    {
-        if (_staminaBar == null) return;
-
-        _staminaBar.value = currentEnergy / startEnergy * 100;
-        _staminaBar.title = string.Format("{0}/{1}", currentEnergy, startEnergy);
     }
 
     public void UpdateFrostbite(float maxFrostbite, float currentFrostbite)
