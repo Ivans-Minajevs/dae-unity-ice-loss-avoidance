@@ -7,6 +7,7 @@ public class SpawnPoint : MonoBehaviour
 {
     [SerializeField] private GameObject _spawnTemplate;
     private bool _hasSpawned = false;
+    [SerializeField] private float _detectionRadius = 10f; // Set your desired radius here
     
     private void OnEnable()
     {
@@ -30,11 +31,21 @@ public class SpawnPoint : MonoBehaviour
     // Check if the spawn point is within the camera's view
     private bool IsInView()
     {
-        if (Camera.main != null)
+        //if (Camera.main != null)
+        //{
+        //    Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
+        //    bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
+        //    return onScreen;
+        //}
+//
+        //return false;
+        
+        var _father = FindObjectOfType<Father>();
+        
+        if (_father != null)
         {
-            Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
-            bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
-            return onScreen;
+            float distanceToCharacter = Vector3.Distance(transform.position, _father.transform.position);
+            return distanceToCharacter <= _detectionRadius;
         }
 
         return false;
