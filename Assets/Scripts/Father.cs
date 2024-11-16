@@ -45,7 +45,7 @@ public class Father : BasicCharacter
         _frostbite = GetComponent<Frostbite>();
         _health = GetComponent<Health>();
         _dialogueManager = FindObjectOfType<DialogueManager>();
-        InvokeRepeating("IncreaseFrostbiteValue", 5f, 2f);
+        InvokeRepeating("IncreaseFrostbiteValue", 35f, 2f);
     }
 
     private void OnEnable()
