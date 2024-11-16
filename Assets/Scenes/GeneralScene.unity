@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.28792453, g: 0.31972647, b: 0.3301887, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -5978,7 +5978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &428559498
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32794,11 +32794,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8939746991763680183, guid: 9ff2a62cfdc614746b75ba0e8d437014, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000001418939
+      value: -0.000000011124539
       objectReference: {fileID: 0}
     - target: {fileID: 8939746991763680183, guid: 9ff2a62cfdc614746b75ba0e8d437014, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000005215694
+      value: 0.000000004089124
       objectReference: {fileID: 0}
     - target: {fileID: 8939746991763680183, guid: 9ff2a62cfdc614746b75ba0e8d437014, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -32999,11 +32999,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1465291520415576736, guid: 595b7f82c3c768343b4daa76e0ee90c7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000014189388
+      value: -0.000000011124536
       objectReference: {fileID: 0}
     - target: {fileID: 1465291520415576736, guid: 595b7f82c3c768343b4daa76e0ee90c7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000052156928
+      value: 0.0000000040891233
       objectReference: {fileID: 0}
     - target: {fileID: 1465291520415576736, guid: 595b7f82c3c768343b4daa76e0ee90c7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
