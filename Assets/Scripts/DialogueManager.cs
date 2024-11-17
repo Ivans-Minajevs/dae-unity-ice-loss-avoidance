@@ -5,12 +5,17 @@ using UnityEngine.UIElements;
 
 public class DialogueManager : MonoBehaviour
 {
+    
+    [SerializeField] GameObject fireworks;
+    [SerializeField] Transform spawnPoint;  
+    
     private VisualElement _dialoguePanel;
     private Label _answerText;
     private VisualElement _questionList;
     private Button _backButton;
     private Label _footer;
     private Father _father;
+    
     private List<string> _options = new()
     {
         "Build arm (1 Metal, 5 Plastic, 1 Wood)",
@@ -97,6 +102,10 @@ public class DialogueManager : MonoBehaviour
                         if (_isArmBuilt)
                         {
                             _answerText.text = "Arm was successfully built";
+                            if (_isHeartBuilt)
+                            {
+                                Instantiate(fireworks, spawnPoint.position, spawnPoint.rotation);
+                            }
                         }
                         else
                         {
@@ -119,6 +128,10 @@ public class DialogueManager : MonoBehaviour
                         if (_isHeartBuilt)
                         {
                             _answerText.text = "Heart was successfully built";
+                            if (_isArmBuilt)
+                            {
+                                Instantiate(fireworks, spawnPoint.position, spawnPoint.rotation);
+                            }
                         }
                         else
                         {
