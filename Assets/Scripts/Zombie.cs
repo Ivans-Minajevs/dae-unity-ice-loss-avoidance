@@ -19,7 +19,6 @@ public class Zombie : BasicCharacter
         if (player) 
         {
             _playerTarget = player.gameObject;
-            //_attackBehaviour = player.GetComponent<AttackBehaviour>();  // Get the player's attack behaviour
             _movementBehaviour.IsMoving = true;
         }
     }
@@ -110,10 +109,10 @@ public class Zombie : BasicCharacter
     
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Friendly")) // Replace with the tag of the other object
+        if (collision.gameObject.CompareTag("Friendly")) 
         {
             Father father = collision.gameObject.GetComponent<Father>();
-            if (father != null && _isAttacking) // Check if 'other' is the Father character
+            if (father != null && _isAttacking)
             {
                 father.DecreaseHealth();
             }
@@ -121,7 +120,7 @@ public class Zombie : BasicCharacter
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Sword"))
+        if (other.CompareTag("Sword")) //If collide with Sword
         {
             Kill();  
         }

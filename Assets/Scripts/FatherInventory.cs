@@ -37,9 +37,6 @@ public class FatherInventory : MonoBehaviour
                 OnWoodItemChanged?.Invoke(woodCount);
                 break;
         }
-        
-        // Optional: Trigger HUD update or display collected item feedback
-        //Debug.Log($"Collected {materialType}. Metal: {metalCount}, Plastic: {plasticCount}, Wood: {woodCount}");
     }
     
     public bool SpendResources(int requiredMetal, int requiredPlastic, int requiredWood)

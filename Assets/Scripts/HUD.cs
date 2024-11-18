@@ -40,10 +40,6 @@ public class HUD : MonoBehaviour
             
            _root.styleSheets.Add(sheet);
            _root.MarkDirtyRepaint();
-           //
-           //var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/HUD/test.uss");
-           //_root.styleSheets.Add(styleSheet);
-           
 
             _metalLabel = _root.Q<Label>("MetalLabel");
             _woodLabel = _root.Q<Label>("WoodLabel");
@@ -113,7 +109,6 @@ public class HUD : MonoBehaviour
     {
         if (_frostbiteBar == null) return;
         
-        //vignette.intensity.value = currentFrostbite/maxFrostbite;
         if (_globalVolume.profile.TryGet(out Vignette vignette))
         {
             vignette.intensity.value = currentFrostbite / maxFrostbite;

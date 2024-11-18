@@ -31,15 +31,6 @@ public class SpawnPoint : MonoBehaviour
     // Check if the spawn point is within the camera's view
     private bool IsInView()
     {
-        //if (Camera.main != null)
-        //{
-        //    Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
-        //    bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
-        //    return onScreen;
-        //}
-//
-        //return false;
-        
         var father = FindObjectOfType<Father>();
         
         if (father != null)

@@ -146,7 +146,7 @@ public class DialogueManager : MonoBehaviour
 
                 break;
             case "Ask for direction":
-                // Logic for inspecting the mechanism
+                // Logic for asking about directions
                 if (!_isHeartBuilt && !_isArmBuilt)
                 {
                     _answerText.text = "I don't have an arm. Building it requires plastic, \n" +
@@ -166,7 +166,7 @@ public class DialogueManager : MonoBehaviour
 
                 break;
             case "Ask about surviving":
-                // Logic for asking about functionality
+                // Logic for asking about surviving
                 _answerText.text = "Its really cold outside, so always keep in mind your frostbite level. \n" +
                                    "Make sure you light bonfires located on the map. \n" +
                                    "House is your place to restore health and frostbite."
@@ -174,6 +174,7 @@ public class DialogueManager : MonoBehaviour
         ;
                 break;
             case "Ask about zombies":
+                // Logic for asking about zombies
                 _answerText.text =
                     "Zombies are very dangerous creatures, mainly spotted near sources. \n" +
                     "Be careful and dont rush into the fight, otherwise you will get killed.";

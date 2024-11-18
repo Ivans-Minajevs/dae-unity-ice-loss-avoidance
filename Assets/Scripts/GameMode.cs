@@ -26,7 +26,7 @@ public class GameMode : MonoBehaviour
     // Method to trigger a new wave of spawn points
     void StartNewWave()
     {
-        // Activate spawn points (they will spawn when visible)
+        // Activate spawn points
         SpawnManager.Instance.SpawnWave();
 
         // Adjust wave frequency for the next wave
